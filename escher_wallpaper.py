@@ -40,62 +40,110 @@ HEADERS = {
     )
 }
 
-# ~50 diverse queries × ~50-80 results each ≈ 1000+ unique images after dedup
-SEARCH_QUERIES = [
-    # Classic Escher works
-    "MC Escher impossible architecture lithograph high resolution",
-    "MC Escher tessellation artwork detailed",
-    "MC Escher impossible staircase relativity artwork",
-    "MC Escher reptiles lithograph print",
-    "MC Escher metamorphosis transformation art",
-    "MC Escher waterfall impossible perpetual motion print",
-    "MC Escher sky and water birds fish",
-    "MC Escher belvedere impossible building print",
-    "MC Escher ascending descending staircase",
-    "MC Escher drawing hands artwork",
-    "MC Escher bond of union portrait",
-    "MC Escher day and night woodcut",
-    "MC Escher circle limit hyperbolic geometry",
-    "MC Escher hand reflecting sphere self portrait",
-    "MC Escher mobius strip ants",
-    "MC Escher print gallery recursive",
-    "MC Escher three worlds print",
-    "MC Escher encounter figures",
-    "MC Escher other world relativity",
-    "MC Escher stars polyhedra chameleons",
-    # Escher style/inspired art
-    "Escher style impossible geometry artwork black white",
-    "Escher inspired impossible architecture drawing",
-    "Escher style recursive fractal detailed art",
-    "Escher style optical illusion staircase art",
-    "Escher style tessellation birds fish pattern art",
-    "Escher inspired mathematical woodcut art",
-    "Escher style impossible cube perspective art",
-    "Escher style penrose triangle artwork",
-    "Escher inspired infinity recursive art",
-    "Escher style impossible building paradox",
-    "Escher woodcut style detailed black white print",
-    "Escher lithograph surreal architecture art",
-    "Escher style infinite loop artwork",
-    "Escher inspired geometric transformation art",
-    "Escher tribute impossible perspective art",
+def _generate_queries():
+    """Generate a large set of diverse search queries for Escher-style art."""
+    queries = set()
+
+    # Specific Escher works (each gets multiple query variations)
+    works = [
+        "Relativity staircase", "Waterfall perpetual motion",
+        "Drawing Hands", "Bond of Union", "Day and Night",
+        "Sky and Water", "Metamorphosis", "Ascending Descending",
+        "Belvedere impossible", "Hand Reflecting Sphere",
+        "Print Gallery recursive", "Reptiles lithograph",
+        "Circle Limit hyperbolic", "Mobius Strip ants",
+        "Three Worlds", "Encounter figures", "Other World",
+        "Stars polyhedra", "Curl-up creature", "Eye reflecting skull",
+        "Tower of Babel", "Concave Convex", "Depth fish",
+        "Dewdrop leaf", "Gallery architecture", "House of Stairs",
+        "Liberation birds", "Magic Mirror", "Puddle reflection",
+        "Rind spiral peel", "Snakes infinity", "Swans tessellation",
+        "Castrovalva landscape", "Still Life Street", "Balcony",
+        "Up Down staircase", "Gravity stars", "Knots",
+        "Path of Life", "Sun Moon", "Whirlpools spiral",
+        "Fish Vignette", "Horseman tessellation", "Predestination",
+        "Spirals shell", "Sphere Surface", "Order Chaos",
+    ]
+    for work in works:
+        queries.add(f"MC Escher {work} artwork")
+        queries.add(f"MC Escher {work} print high resolution")
+        queries.add(f"Escher {work} lithograph")
+
+    # Style combinations
+    prefixes = [
+        "MC Escher", "Escher style", "Escher inspired",
+        "Escher tribute", "Escher like", "in the style of MC Escher",
+    ]
+    subjects = [
+        "impossible architecture", "impossible staircase",
+        "impossible building", "tessellation pattern",
+        "recursive drawing", "infinite loop", "impossible geometry",
+        "optical illusion", "paradox perspective", "impossible waterfall",
+        "impossible cube", "penrose triangle", "penrose staircase",
+        "impossible bridge", "gravity defying", "impossible room",
+        "infinite staircase", "impossible tower", "tessellation birds",
+        "tessellation fish", "tessellation lizards", "impossible world",
+        "recursive architecture", "fractal architecture", "impossible city",
+        "impossible castle", "mathematical art", "geometric paradox",
+        "impossible structure", "surreal architecture", "impossible maze",
+        "impossible labyrinth", "infinite corridor", "impossible columns",
+        "warped perspective", "non-euclidean geometry",
+        "impossible intersection", "tessellation butterflies",
+        "impossible cathedral", "impossible monastery",
+        "impossible palace", "impossible library", "impossible spiral",
+    ]
+    styles = [
+        "black and white artwork", "detailed lithograph",
+        "woodcut print", "detailed drawing", "high resolution art",
+        "fine art print", "detailed illustration", "monochrome artwork",
+        "grayscale illustration", "pen and ink drawing",
+        "engraving style art", "crosshatch drawing",
+    ]
+    for prefix in prefixes:
+        for subject in subjects:
+            queries.add(f"{prefix} {subject}")
+            for style in styles[:4]:  # limit combinations
+                queries.add(f"{prefix} {subject} {style}")
+
     # Broader impossible/mathematical art
-    "impossible architecture surreal detailed artwork wallpaper",
-    "impossible geometry paradox high quality artwork",
-    "mathematical tessellation art detailed pattern",
-    "surreal recursive architecture impossible perspective art",
-    "impossible staircase optical illusion artwork",
-    "penrose impossible architecture surreal art",
-    "tessellation transformation metamorphosis print art",
-    "impossible perspective paradox architecture art",
-    "surreal mathematical architecture impossible world art",
-    "optical illusion impossible building drawing art",
-    "recursive self-referential Escher artwork",
-    "impossible geometry black white detailed artwork",
-    "surreal gravity staircase Escher artwork",
-    "fractal recursive geometry art detailed",
-    "impossible labyrinth Escher maze artwork",
-]
+    broad = [
+        "impossible architecture artwork black white detailed",
+        "impossible geometry artwork monochrome high resolution",
+        "impossible object artwork detailed illustration",
+        "mathematical art tessellation grayscale",
+        "surreal impossible architecture drawing detailed",
+        "paradox architecture artwork lithograph style",
+        "non-euclidean architecture artwork black white",
+        "impossible perspective artwork detailed grayscale",
+        "optical illusion architecture monochrome art",
+        "recursive fractal architecture artwork grayscale",
+        "impossible architecture wallpaper black white 4k",
+        "impossible geometry desktop wallpaper monochrome",
+        "Escher wallpaper desktop black white high resolution",
+        "impossible staircase wallpaper monochrome detailed",
+        "tessellation wallpaper grayscale mathematical art",
+        "MC Escher desktop wallpaper high resolution",
+        "impossible architecture 4k wallpaper grayscale",
+        "surreal architecture wallpaper monochrome detailed",
+        "impossible geometry wallpaper black white 4k",
+        "penrose impossible geometry artwork high resolution",
+        "impossible architecture illustration grayscale",
+        "mathematical impossible structure artwork monochrome",
+        "droste effect recursive image black white",
+        "impossible triangle artwork detailed grayscale",
+        "surreal gravity architecture black white artwork",
+        "infinite recursion artwork monochrome detailed",
+        "paradox geometry illustration black white",
+        "impossible perspective building artwork grayscale",
+        "tessellation metamorphosis artwork grayscale detailed",
+        "impossible architecture engraving style artwork",
+    ]
+    queries.update(broad)
+
+    return list(queries)
+
+
+SEARCH_QUERIES = _generate_queries()
 
 
 def _make_request(url, extra_headers=None):
@@ -185,7 +233,6 @@ def cmd_download():
     # Phase 1: Collect all unique image URLs
     all_images = {}  # url_hash -> {url, title, width, height}
     for i, query in enumerate(SEARCH_QUERIES, 1):
-        print(f"[{i}/{len(SEARCH_QUERIES)}] Searching: {query[:60]}...")
         results = search_images(query)
         new = 0
         for img in results:
@@ -193,8 +240,9 @@ def cmd_download():
             if url_hash not in all_images:
                 all_images[url_hash] = img
                 new += 1
-        print(f"  Got {len(results)} results, {new} new unique")
-        time.sleep(1.0)  # Rate limit
+        if i % 25 == 0 or i == len(SEARCH_QUERIES):
+            print(f"  [{i}/{len(SEARCH_QUERIES)}] unique so far: {len(all_images)}")
+        time.sleep(0.5)  # Rate limit
 
     print(f"\nTotal unique images found: {len(all_images)}")
 
