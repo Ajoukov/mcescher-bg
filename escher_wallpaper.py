@@ -10,6 +10,7 @@ Usage:
     python3 escher_wallpaper.py set        # Set a random wallpaper
     python3 escher_wallpaper.py install    # Install hourly systemd timer
     python3 escher_wallpaper.py uninstall  # Remove timer
+    python3 escher_wallpaper.py cycle      # Force-cycle wallpaper now (resets timer)
     python3 escher_wallpaper.py status     # Show collection stats
 """
 
@@ -348,6 +349,20 @@ def cmd_uninstall():
     print("Uninstalled escher-wallpaper timer.")
 
 
+def cmd_cycle():
+    """Force-cycle wallpaper now and reset the hourly timer."""
+    cmd_set()
+    # Reset timer so the next hour starts from now
+    result = subprocess.run(
+        ["systemctl", "--user", "is-active", "escher-wallpaper.timer"],
+        capture_output=True, text=True,
+    )
+    if result.stdout.strip() == "active":
+        subprocess.run(["systemctl", "--user", "restart",
+                         "escher-wallpaper.timer"], capture_output=True)
+        print("Timer reset (next change in ~1 hour)")
+
+
 def cmd_status():
     """Show collection stats."""
     images = [p for p in WALLPAPER_DIR.iterdir()
@@ -383,6 +398,7 @@ def main():
     commands = {
         "download": cmd_download,
         "set": cmd_set,
+        "cycle": cmd_cycle,
         "install": cmd_install,
         "uninstall": cmd_uninstall,
         "status": cmd_status,
